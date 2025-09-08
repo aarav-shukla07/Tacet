@@ -1,50 +1,69 @@
-const { app, BrowserWindow, globalShortcut, ipcMain } = require('electron');
-const path = require('path');
+const { app, BrowserWindow, ipcMain } = require("electron");
+const path = require("path");
 
-function createWindow() {
-  const win = new BrowserWindow({
-    width: 1100,
-    height: 700,
-    frame: false,
-    transparent: false, // keep window visible; overlay itself will be semi-transparent
+let mainWindow;
+let overlayWindow;
+
+function createMainWindow() {
+  mainWindow = new BrowserWindow({
+    width: 900,
+    height: 600,
     webPreferences: {
-      preload: path.join(__dirname, 'preload.js'),
+      preload: path.join(__dirname, "preload.js"),
       contextIsolation: true,
-      nodeIntegration: false
-    }
+      nodeIntegration: false,
+    },
   });
 
-  const devUrl = process.env.DEV_URL;
-  if (devUrl) {
-    win.loadURL(devUrl);
-  } else {
-    win.loadFile(path.join(__dirname, '..', 'renderer', 'dist', 'index.html'));
+  const devUrl = process.env.DEV_URL || "http://localhost:5173";
+  mainWindow.loadURL(devUrl + "/#/");
+
+  mainWindow.on("closed", () => {
+    mainWindow = null;
+  });
+}
+
+function createOverlayWindow() {
+  if (overlayWindow) {
+    overlayWindow.show();
+    return;
   }
 
-  if (process.env.NODE_ENV === 'development') {
-    win.webContents.openDevTools({ mode: 'detach' });
-  }
+  overlayWindow = new BrowserWindow({
+  width: 420,
+  height: 500,
+  frame: false,
+  transparent: true,
+  backgroundColor: "#00000000", // fully transparent
+  alwaysOnTop: true,
+  skipTaskbar: false,
+  resizable: true,
+  webPreferences: {
+    preload: path.join(__dirname, "preload.js"),
+    contextIsolation: true,
+    nodeIntegration: false,
+  },
+});
+
+
+  const devUrl = process.env.DEV_URL || "http://localhost:5173";
+  overlayWindow.loadURL(devUrl + "/#/overlay");
+
+  overlayWindow.on("closed", () => {
+    overlayWindow = null;
+  });
 }
 
 app.whenReady().then(() => {
-  createWindow();
+  createMainWindow();
 
-  // Hotkey toggle overlay - Ctrl/Cmd + Shift + G
-  globalShortcut.register('CommandOrControl+Shift+G', () => {
-    BrowserWindow.getAllWindows().forEach(w => {
-      w.webContents.send('toggle-overlay');
-    });
-  });
-
-  app.on('activate', () => {
-    if (BrowserWindow.getAllWindows().length === 0) createWindow();
+  ipcMain.on("open-overlay", () => {
+    createOverlayWindow();
   });
 });
 
-app.on('will-quit', () => {
-  globalShortcut.unregisterAll();
-});
-
-app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') app.quit();
+app.on("window-all-closed", () => {
+  if (process.platform !== "darwin" && !overlayWindow) {
+    app.quit();
+  }
 });

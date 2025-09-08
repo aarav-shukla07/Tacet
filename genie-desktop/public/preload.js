@@ -1,8 +1,5 @@
-const { contextBridge, ipcRenderer } = require('electron');
+const { contextBridge, ipcRenderer } = require("electron");
 
-contextBridge.exposeInMainWorld('electronAPI', {
-  onToggle: (cb) => {
-    // cb will get (event) argument — we wrap to call without args
-    ipcRenderer.on('toggle-overlay', () => cb());
-  }
+contextBridge.exposeInMainWorld("electronAPI", {
+  openOverlay: () => ipcRenderer.send("open-overlay"),
 });
