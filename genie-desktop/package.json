@@ -1,0 +1,19 @@
+{
+  "name": "genie-desktop",
+  "version": "0.1.0",
+  "private": true,
+  "main": "public/electron-main.js",
+  "scripts": {
+    "postinstall": "cd renderer && npm install",
+    "dev": "cross-env DEV_URL=http://localhost:5173 electron .",
+    "start-renderer": "cd renderer && npm run dev",
+    "start": "npm-run-all --parallel start-renderer dev",
+    "build": "cd renderer && npm run build && electron-builder"
+  },
+  "devDependencies": {
+    "electron": "^26.0.0",
+    "electron-builder": "^24.6.0",
+    "cross-env": "^7.0.3",
+    "npm-run-all": "^4.1.5"
+  }
+}
