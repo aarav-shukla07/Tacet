@@ -2,11 +2,12 @@ import os
 import uuid
 import json
 import pytesseract
-from PIL import Image
+from PIL import Image, ImageGrab
 from fastapi import FastAPI, Request, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 import subprocess as sp
 import ollama
+import platform # To detect the operating system
 
 app = FastAPI()
 
@@ -19,16 +20,40 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Crucial for Windows: Set the path to the Tesseract executable
+# Adjust the path if you installed Tesseract elsewhere
+if platform.system() == "Windows":
+    pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+
 # ---------- In-memory session store ----------
 sessions = {}
 
-# ---------- Capture Screen ----------
+# ---------- Capture Screen (Cross-Platform for Windows, macOS, and Linux) ----------
 def capture_screen(filename: str = "screenshot.png") -> str:
+    """
+    Captures the entire screen and saves it to a file.
+    This function is cross-platform compatible.
+    """
+    current_os = platform.system()
     try:
-        sp.run(["gnome-screenshot", "-f", filename], check=True)
+        if current_os == "Windows":
+            # Use Pillow's ImageGrab on Windows
+            screenshot = ImageGrab.grab()
+            screenshot.save(filename)
+        elif current_os == "Darwin": # "Darwin" is the system name for macOS
+            # Use the 'screencapture' command-line utility on macOS
+            sp.run(["screencapture", filename], check=True)
+        elif current_os == "Linux":
+            # Use gnome-screenshot on Linux
+            sp.run(["gnome-screenshot", "-f", filename], check=True)
+        else:
+            raise OSError(f"Unsupported operating system: {current_os}")
+        
         return filename
-    except sp.CalledProcessError as e:
-        raise RuntimeError(f"Screen capture failed: {e}")
+    
+    except Exception as e:
+        # Catch any error during the screenshot process and provide a clear message
+        raise RuntimeError(f"Screen capture failed on {current_os}: {e}")
 
 # ---------- OCR Extraction ----------
 def extract_text_from_image(image_path: str) -> str:
@@ -100,7 +125,6 @@ Return JSON only:
   "extra_notes": "..."
 }}
 """
-
         ai_reply = ask_ollama_with_session(session_id, prompt)
 
         try:

@@ -1,3 +1,9 @@
+before running download these things:
+```bash
+pip install uvicorn
+pip install pytesseract
+pip install fastapi
+```
 run the backend by the command
 ```bash
 uvicorn app:app --reload
