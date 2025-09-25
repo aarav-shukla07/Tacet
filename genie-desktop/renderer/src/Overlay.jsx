@@ -9,14 +9,12 @@ export default function Overlay() {
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  // --- MODIFICATION START ---
   async function takeScreenshotAndExplain() {
-    setChat([]); // Clear previous chat
+    setChat([]); 
     setIsLoading(true);
-    setSessionId(null); // Reset session for screen explanations
+    setSessionId(null);
 
     try {
-      // Use the modern 'fetch' API to handle streaming data
       const response = await fetch("http://127.0.0.1:8000/explain-screen");
 
       if (!response.ok) {
@@ -27,10 +25,8 @@ export default function Overlay() {
       const decoder = new TextDecoder();
       let accumulatedText = "";
 
-      // Set initial empty message for the assistant
       setChat([{ role: "assistant", text: "" }]);
 
-      // Read from the stream
       while (true) {
         const { done, value } = await reader.read();
         if (done) break;
@@ -38,7 +34,6 @@ export default function Overlay() {
         const chunk = decoder.decode(value, { stream: true });
         accumulatedText += chunk;
 
-        // Update the chat with the latest text, creating a "typing" effect
         setChat([{ role: "assistant", text: accumulatedText }]);
       }
     } catch (err) {
@@ -47,9 +42,7 @@ export default function Overlay() {
       setIsLoading(false);
     }
   }
-  // --- MODIFICATION END ---
   
-  // Non-streaming chat function (can be upgraded later)
   async function sendMessage() {
     if (!input.trim() || isLoading) return;
     const msg = input.trim();
@@ -100,7 +93,7 @@ export default function Overlay() {
         <input
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          placeholder="Ask a follow-up..."
+          placeholder="Ask Tacet..."
           onKeyDown={(e) => e.key === "Enter" && sendMessage()}
           disabled={isLoading}
         />

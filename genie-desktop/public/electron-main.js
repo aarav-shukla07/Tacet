@@ -1,7 +1,7 @@
 const { app, BrowserWindow, ipcMain } = require("electron");
 const path = require("path");
 
-// ✅ Load platform-specific secure-display module
+// Load platform-specific secure-display module
 let secureDisplay;
 try {
   if (process.platform === "win32") {
@@ -26,6 +26,10 @@ function createMainWindow() {
   mainWindow = new BrowserWindow({
     width: 900,
     height: 600,
+    // --- FIX START ---
+    // Set the native window background color to match your dark theme
+    backgroundColor: '#000000',
+    // --- FIX END ---
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
       contextIsolation: true,
@@ -40,7 +44,7 @@ function createMainWindow() {
     mainWindow = null;
   });
 
-  // 🔒 Apply screen-protection on main window
+  // Apply screen-protection on main window
   secureDisplay.protectWindow(mainWindow);
 }
 
@@ -55,7 +59,7 @@ function createOverlayWindow() {
     height: 500,
     frame: false,
     transparent: true,
-    backgroundColor: "#00000000", // fully transparent
+    backgroundColor: "#00000000", // fully transparent for the overlay shape
     alwaysOnTop: true,
     skipTaskbar: false,
     resizable: true,
@@ -73,7 +77,7 @@ function createOverlayWindow() {
     overlayWindow = null;
   });
 
-  // 🔒 Optional: Protect overlay window as well
+  // Optional: Protect overlay window as well
   secureDisplay.protectWindow(overlayWindow);
 }
 
