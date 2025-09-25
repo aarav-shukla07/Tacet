@@ -1,4 +1,6 @@
 import React from 'react';
+import { Spotlight } from './components/ui/Spotlight';
+import { TypewriterEffectSmooth } from './components/ui/TypewriterEffect';
 
 export default function App() {
   return (
@@ -6,10 +8,14 @@ export default function App() {
       <div className="content-wrapper">
         <header className="hero-section">
           {/* New div for the background glow effect */}
-          <div className="hero-glow"></div>
+          <Spotlight
+            className="hero-spotlight"
+            fill="white"
+          />
           <h1 className="hero-title">
             TACET
           </h1>
+
           <p className="hero-subtitle">
             Tacet brings the power of a screen-aware AI assistant directly to your desktop, running 100% locally. Its core feature, the Privacy Shield, makes it completely invisible during screen shares.
           </p>
