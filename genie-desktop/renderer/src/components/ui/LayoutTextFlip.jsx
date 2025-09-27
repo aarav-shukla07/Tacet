@@ -18,9 +18,12 @@ export const LayoutTextFlip = ({
 
   return (
     <div className="layout-text-flip-container">
-      <motion.span layoutId="subtext" className="static-text">
+      {/* --- FIX START --- */}
+      {/* Changed this from a motion.span to a regular span to prevent animation conflicts */}
+      <span className="static-text">
         {text}
-      </motion.span>
+      </span>
+      {/* --- FIX END --- */}
 
       <motion.div
         layout
@@ -39,6 +42,6 @@ export const LayoutTextFlip = ({
           </motion.span>
         </AnimatePresence>
       </motion.div>
-      </div>
+    </div>
   );
 };

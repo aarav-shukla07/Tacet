@@ -69,7 +69,10 @@ export default function App() {
         </section>
 
         <section className="page-section">
-          <h2 className="section-title">Key Features</h2>
+          <LayoutTextFlip
+            text="Explore Our"
+            words={["Key Features", "Core Abilities"]}
+          />
           <div className="features-grid">
             {/* Wrap each feature in the new CometCard component */}
             <CometCard>
@@ -89,7 +92,10 @@ export default function App() {
 
 
         <section className="page-section">
-          <h2 className="section-title">How It Works</h2>
+          <LayoutTextFlip
+            text="A Simple"
+            words={["Workflow", "Process"]}
+          />
           {/* --- UPDATED THIS SECTION --- */}
           <div className="steps-container">
             <CometCard>
