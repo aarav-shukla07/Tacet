@@ -2,6 +2,7 @@ import React from 'react';
 import { Spotlight } from './components/ui/Spotlight';
 import { TypewriterEffectSmooth } from './components/ui/TypewriterEffect';
 import { LayoutTextFlip } from './components/ui/LayoutTextFlip';
+import { CometCard } from './components/ui/CometCard';
 
 export default function App() {
   // Define the words for the typewriter effect
@@ -56,43 +57,47 @@ export default function App() {
             words={["Silence", "Privacy", "Focus"]}
           />
           <p className="section-paragraph">
-            In today's collaborative world, privacy is paramount. Tacet (from Latin 'it is silent') was built for professionals who need AI assistance without broadcasting their work. Whether you're in a code review, a client presentation, or an online class, Tacet works for you and only you. It provides the answers you need, right on your screen, without ever showing up on anyone else's.
+            Stuck on a LeetCode or CodeChef problem during a live interview? Tacet is your secret advantage. With our Privacy Shield, you can get the solution on your screen in real-time, without the interviewer ever knowing. It's the ultimate tool for acing technical rounds, discreetly.
+
           </p>
         </section>
 
         <section className="page-section">
           <h2 className="section-title">Key Features</h2>
           <div className="features-grid">
-            <div className="feature-card">
+            {/* Wrap each feature in the new CometCard component */}
+            <CometCard>
               <h3>Privacy Shield</h3>
-              <p>This is Tacet's signature feature. The overlay is undetectable by screen-sharing and recording software like Zoom, Google Meet, and Teams. To others, it's an empty space on your screen; to you, it's a powerful AI tool.</p>
-            </div>
-            <div className="feature-card">
+              <p>Tacet's overlay is undetectable by screen-sharing software. To interviewers or professors, it's an empty space on your screen. To you, it's your private co-pilot for getting the right answer.</p>
+            </CometCard>
+            <CometCard>
               <h3>Instant Contextual Analysis</h3>
-              <p>Stop the tedious cycle of copying and pasting. With a single click, Tacet reads the content on your screen and provides solutions, explanations, or summaries in real-time. It's the ultimate productivity boost for developers, writers, and researchers.</p>
-            </div>
-            <div className="feature-card">
+              <p>Don't just get answers, get the *right* answers. A single click captures the problem on your screen, providing instant, context-aware solutions when the pressure is on.</p>
+            </CometCard>
+            <CometCard>
               <h3>100% Offline & Secure</h3>
-              <p>Your data never leaves your machine. Tacet leverages the power of Ollama to run large language models entirely locally. This means no data collection, no privacy concerns, and functionality even without an internet connection.</p>
-            </div>
+              <p>Your activity is your business. Tacet runs entirely on your machine, meaning no network requests, no data collection, and no traces. Your secret advantage stays secret.</p>
+            </CometCard>
           </div>
         </section>
 
+
         <section className="page-section">
           <h2 className="section-title">How It Works</h2>
+          {/* --- UPDATED THIS SECTION --- */}
           <div className="steps-container">
-            <div className="step">
+            <CometCard>
               <h3>Activate</h3>
               <p>Launch the Tacet overlay. It floats discreetly above your applications, always ready for your command.</p>
-            </div>
-            <div className="step">
+            </CometCard>
+            <CometCard>
               <h3>Analyze</h3>
               <p>Click "Explain Screen" to have Tacet instantly and privately analyze the text content currently visible on your display.</p>
-            </div>
-            <div className="step">
+            </CometCard>
+            <CometCard>
               <h3>Achieve</h3>
               <p>Receive code, explanations, or summaries streamed directly to your private overlay, empowering you to work smarter and faster.</p>
-            </div>
+            </CometCard>
           </div>
         </section>
 

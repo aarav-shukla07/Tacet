@@ -208,3 +208,48 @@ html, body, #root {
   font-size: 2.5rem; /* Matches your old .section-title */
   font-weight: 700;
 }
+
+/* === NEW: Comet Card Styles === */
+.comet-card-wrapper {
+  /* This creates the 3D space for the card to move in */
+  perspective: 1000px;
+}
+
+.comet-card {
+  position: relative;
+  border-radius: 1rem; /* 16px */
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  transition: all 0.2s ease-out; /* Smooth transition for hover effects */
+}
+
+.comet-card-content {
+  padding: 32px;
+  text-align: left;
+}
+
+.comet-card-content h3 {
+  margin-top: 0;
+  font-size: 1.2rem;
+  color: var(--text-primary);
+}
+
+.comet-card-content p {
+  color: var(--text-secondary);
+  line-height: 1.6;
+  font-size: 0.95rem;
+}
+
+.comet-card-glare {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  z-index: 50; /* z-50 */
+  height: 100%;
+  width: 100%;
+  border-radius: 1rem; /* rounded-[16px] */
+  mix-blend-mode: overlay;
+  opacity: 0.6;
+  transition-duration: 0.2s;
+}
+
