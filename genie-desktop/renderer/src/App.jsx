@@ -3,6 +3,22 @@ import { Spotlight } from './components/ui/Spotlight';
 import { TypewriterEffectSmooth } from './components/ui/TypewriterEffect';
 
 export default function App() {
+  // Define the words for the typewriter effect
+  const words = [
+    { text: "AI-powered" },
+    { text: "insight," },
+    { text: "hidden" },
+    { text: "in" },
+    {
+      text: "plain",
+      className: "text-blue-500", // This will be styled in CSS
+    },
+    {
+      text: "sight.",
+      className: "text-blue-500",
+    },
+  ];
+  
   return (
     <div className="main-container">
       <div className="content-wrapper">
@@ -16,16 +32,22 @@ export default function App() {
             TACET
           </h1>
 
-          <p className="hero-subtitle">
-            Tacet brings the power of a screen-aware AI assistant directly to your desktop, running 100% locally. Its core feature, the Privacy Shield, makes it completely invisible during screen shares.
-          </p>
+          {/* <TypewriterEffectSmooth words={words} />
+           */}
+        </header>
+
+        <div className="typewriter-wrapper">
+          <TypewriterEffectSmooth words={words} />
+        </div>
+        <div className='cta-wrapper'>
           <button
+            className="button-54"
+            role="button"
             onClick={() => window.electronAPI.openOverlay()}
-            className="btn cta-button"
           >
             Activate Tacet
           </button>
-        </header>
+        </div>
 
         <section className="page-section animated-section">
           <h2 className="section-title">The Power of Silence</h2>
@@ -72,7 +94,7 @@ export default function App() {
 
         {/* New footer element */}
         <footer className="app-footer">
-          <p>Made with ❤️ by Aarav</p>
+          <p>Made by Aarav Shukla!!</p>
         </footer>
       </div>
     </div>
