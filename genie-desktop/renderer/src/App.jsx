@@ -3,6 +3,7 @@ import { Spotlight } from './components/ui/Spotlight';
 import { TypewriterEffectSmooth } from './components/ui/TypewriterEffect';
 import { LayoutTextFlip } from './components/ui/LayoutTextFlip';
 import { CometCard } from './components/ui/CometCard';
+import { TextRevealCard, TextRevealCardTitle, TextRevealCardDescription } from './components/ui/TextRevealCard';
 
 export default function App() {
   // Define the words for the typewriter effect
@@ -56,10 +57,15 @@ export default function App() {
             text="The Power of"
             words={["Silence", "Privacy", "Focus"]}
           />
-          <p className="section-paragraph">
-            Stuck on a LeetCode or CodeChef problem during a live interview? Tacet is your secret advantage. With our Privacy Shield, you can get the solution on your screen in real-time, without the interviewer ever knowing. It's the ultimate tool for acing technical rounds, discreetly.
-
-          </p>
+          <TextRevealCard
+            text="Your Secret Advantage"
+            revealText="Ace Any Technical Round"
+          >
+            
+            <TextRevealCardDescription>
+              Stuck on a LeetCode or CodeChef problem during a live interview? Tacet is your secret advantage. With our Privacy Shield, you can get the solution on your screen in real-time, without the interviewer ever knowing. It's the ultimate tool for acing technical rounds, discreetly.
+            </TextRevealCardDescription>
+          </TextRevealCard>
         </section>
 
         <section className="page-section">

@@ -253,3 +253,68 @@ html, body, #root {
   transition-duration: 0.2s;
 }
 
+/* === NEW: Text Reveal Card Styles === */
+.text-reveal-card {
+  background-color: #1d1c20;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  max-width: 40rem; /* w-[40rem] */
+  margin: 0 auto; /* Center the card */
+  border-radius: 0.5rem; /* rounded-lg */
+  padding: 2rem; /* p-8 */
+  position: relative;
+  overflow: hidden;
+}
+
+.text-reveal-title {
+  color: white;
+  font-size: 1.125rem; /* text-lg */
+  margin-bottom: 0.5rem; /* mb-2 */
+}
+
+.text-reveal-description {
+  color: #a9a9a9;
+  font-size: 1.2rem; /* text-sm */
+  line-height: 1.6;
+}
+
+.reveal-content-container {
+  height: 10rem; /* h-40 */
+  position: relative;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+.reveal-text-container {
+  position: absolute;
+  background-color: #1d1c20; /* must match card background */
+  z-index: 20;
+  will-change: transform;
+  width: 100%;
+}
+
+.reveal-text {
+  font-size: 3rem; /* sm:text-[3rem] */
+  padding: 2rem 0; /* py-10 */
+  font-weight: bold;
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+  background-image: linear-gradient(to bottom, white, #a0a0a0);
+  text-shadow: 4px 4px 15px rgba(0,0,0,0.5);
+}
+
+.base-text-container {
+  overflow: hidden;
+  mask-image: linear-gradient(to bottom, transparent, white, transparent);
+  -webkit-mask-image: linear-gradient(to bottom, transparent, white, transparent);
+}
+
+.base-text {
+  font-size: 3rem; /* sm:text-[3rem] */
+  padding: 2.5rem 0; /* py-10 */
+  font-weight: bold;
+  color: #323238;
+  background-clip: text;
+  -webkit-background-clip: text;
+}
