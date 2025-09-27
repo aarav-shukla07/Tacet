@@ -1,6 +1,7 @@
 import React from 'react';
 import { Spotlight } from './components/ui/Spotlight';
 import { TypewriterEffectSmooth } from './components/ui/TypewriterEffect';
+import { LayoutTextFlip } from './components/ui/LayoutTextFlip';
 
 export default function App() {
   // Define the words for the typewriter effect
@@ -50,7 +51,10 @@ export default function App() {
         </div>
 
         <section className="page-section animated-section">
-          <h2 className="section-title">The Power of Silence</h2>
+          <LayoutTextFlip
+            text="The Power of"
+            words={["Silence", "Privacy", "Focus"]}
+          />
           <p className="section-paragraph">
             In today's collaborative world, privacy is paramount. Tacet (from Latin 'it is silent') was built for professionals who need AI assistance without broadcasting their work. Whether you're in a code review, a client presentation, or an online class, Tacet works for you and only you. It provides the answers you need, right on your screen, without ever showing up on anyone else's.
           </p>

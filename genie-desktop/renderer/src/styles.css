@@ -42,7 +42,7 @@ html, body, #root {
 
 /* === Hero Section === */
 .hero-section {
-  padding: 100px 0 30px 0;
+  padding: 60px 0 30px 0;
   display: flex;
   flex-direction:column;
   justify-content: center;
@@ -92,7 +92,7 @@ html, body, #root {
 /* === NEW: Final, Corrected Spotlight Styles === */
 .hero-spotlight {
   position: absolute;
-  top: -3rem;
+  top: -5rem;
   left: 5rem; /* Center horizontally */
   z-index: 1; /* Place it behind the text */
 }
@@ -175,4 +175,36 @@ html, body, #root {
   .button-54 {
     padding: 0.25em 0.75em;
   }
+}
+
+/* === NEW: Layout Text Flip Styles === */
+.layout-text-flip-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem; /* space between "The Power of" and the flipping word */
+  margin-bottom: 48px;
+}
+
+.static-text {
+  font-size: 2.5rem; /* Matches your old .section-title */
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.flipping-word-container {
+  position: relative;
+  background-color: var(--card-bg);
+  color: var(--text-primary);
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.flipping-word {
+  display: inline-block;
+  white-space: nowrap;
+  font-size: 2.5rem; /* Matches your old .section-title */
+  font-weight: 700;
 }
