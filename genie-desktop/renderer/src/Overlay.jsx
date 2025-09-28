@@ -10,9 +10,14 @@ export default function Overlay() {
   const [isLoading, setIsLoading] = useState(false);
 
   async function takeScreenshotAndExplain() {
-    setChat([]); 
     setIsLoading(true);
     setSessionId(null);
+
+    // --- CHANGE START ---
+    // Add the "Explain Screen" action to the chat history for context
+    const initialChat = [{ role: "user", text: "Explain this screen" }];
+    setChat([...initialChat, { role: "assistant", text: "Analyzing..." }]);
+    // --- CHANGE END ---
 
     try {
       const response = await fetch("http://127.0.0.1:8000/explain-screen");
@@ -25,19 +30,38 @@ export default function Overlay() {
       const decoder = new TextDecoder();
       let accumulatedText = "";
 
-      setChat([{ role: "assistant", text: "" }]);
+      // The backend response contains the session_id in a header
+      // We will grab it here once we have the full response.
+      // For now, we just stream the text.
 
+      // Replace "Analyzing..." with the streaming response
+      setChat([...initialChat, { role: "assistant", text: "" }]);
+      
       while (true) {
         const { done, value } = await reader.read();
         if (done) break;
 
         const chunk = decoder.decode(value, { stream: true });
         accumulatedText += chunk;
+        
+        // This is a simplified way to get session_id for a streaming response.
+        // A more robust solution would use a multi-part response or custom headers.
+        if (!sessionId) {
+            try {
+                // Try to parse the full response so far to find a session_id
+                const potentialJson = JSON.parse(accumulatedText);
+                if (potentialJson.session_id) {
+                    setSessionId(potentialJson.session_id);
+                }
+            } catch (e) {
+                // It's not valid JSON yet, so continue streaming
+            }
+        }
 
-        setChat([{ role: "assistant", text: accumulatedText }]);
+        setChat([...initialChat, { role: "assistant", text: accumulatedText }]);
       }
     } catch (err) {
-      setChat([{ role: "assistant", text: `Error: ${err.message}` }]);
+      setChat([...initialChat, { role: "assistant", text: `Error: ${err.message}` }]);
     } finally {
       setIsLoading(false);
     }
@@ -46,11 +70,13 @@ export default function Overlay() {
   async function sendMessage() {
     if (!input.trim() || isLoading) return;
     const msg = input.trim();
-    setChat((c) => [...c, { role: "user", text: msg }]);
+    const newChat = [...chat, { role: "user", text: msg }];
+    setChat(newChat);
     setInput("");
     setIsLoading(true);
 
     try {
+      // The logic to use sessionId for follow-ups is already here and correct
       const endpoint = sessionId ? "/chat-session" : "/ask-text";
       const payload = sessionId 
         ? { session_id: sessionId, message: msg }
@@ -61,13 +87,14 @@ export default function Overlay() {
       const reply = res.data.ai_reply || "Sorry, I couldn't get a response.";
       if (!sessionId) setSessionId(res.data.session_id);
 
-      setChat((c) => [...c, { role: "assistant", text: reply }]);
+      setChat([...newChat, { role: "assistant", text: reply }]);
     } catch (err) {
-      setChat((c) => [...c, { role: "assistant", text: "Error: " + (err.response?.data?.detail || err.message) }]);
+      setChat([...newChat, { role: "assistant", text: "Error: " + (err.response?.data?.detail || err.message) }]);
     } finally {
       setIsLoading(false);
     }
   }
+
 
 
   return (

@@ -318,3 +318,122 @@ html, body, #root {
   background-clip: text;
   -webkit-background-clip: text;
 }
+
+/* === Overlay Styles (UPDATED) === */
+.overlay {
+  background: #18181B;
+  border-radius: 12px;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.8);
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  border: 1px solid var(--border-color);
+}
+
+.overlay-header {
+  -webkit-app-region: drag;
+  background: #27272A;
+  color: var(--text-primary);
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border-color);
+  border-radius: 11px 11px 0 0;
+  font-weight: 600;
+  font-size: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.overlay-header button,
+.overlay-header input {
+  -webkit-app-region: no-drag;
+}
+
+.chat-window {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 16px;
+}
+
+.bubble {
+  margin-bottom: 12px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  max-width: 90%;
+  line-height: 1.5;
+  word-wrap: break-word;
+}
+
+/* --- CHANGED --- */
+.bubble.user {
+  background: var(--user-bubble-bg); /* New light grey color */
+  color: white;
+  margin-left: auto;
+  border-radius: 12px 12px 2px 12px;
+}
+
+.bubble.assistant {
+  background: var(--card-bg);
+  color: var(--text-primary);
+  margin-right: auto;
+  border-radius: 12px 12px 12px 2px;
+}
+
+.bubble pre {
+  background-color: #000;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  overflow-x: auto;
+  font-size: 0.9em;
+}
+
+.input-row {
+  display: flex;
+  gap: 8px;
+  padding: 12px;
+  border-top: 1px solid var(--border-color);
+  background: #1A1A1A;
+}
+
+.input-row input {
+  flex: 1;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  background: #222;
+  color: var(--text-primary);
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.input-row input:focus {
+  border-color: var(--accent-primary);
+}
+
+/* General Button Styles */
+.btn {
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  transition: transform 0.1s ease;
+}
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn.green { background: var(--accent-green); color: white; }
+.btn.teal { background: var(--accent-secondary); color: white; }
+.btn.small {
+  padding: 4px 8px;
+  border-radius: 6px;
+  background: #333;
+  color: var(--text-primary);
+  font-size: 0.8rem;
+}
+.btn.small:hover {
+  background: #444;
+}
