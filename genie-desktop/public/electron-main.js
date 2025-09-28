@@ -1,23 +1,22 @@
 const { app, BrowserWindow, ipcMain } = require("electron");
 const path = require("path");
 
-// Load platform-specific secure-display module
-let secureDisplay;
+// --- CHANGE START ---
+// Import your new, robust secure-visibility-api package.
+// The name comes from the package.json of your API project.
+let SecureVisibility;
 try {
-  if (process.platform === "win32") {
-    secureDisplay = require("./secure-display/windows");
-  } else if (process.platform === "darwin") {
-    secureDisplay = require("./secure-display/mac");
-  } else {
-    secureDisplay = require("./secure-display/linux");
-  }
+  SecureVisibility = require('@your-npm-username/secure-visibility-api').SecureVisibility;
 } catch (err) {
-  console.warn("⚠️ Secure display module not found:", err);
-  secureDisplay = {
-    protectWindow: () => {},
-    unprotectWindow: () => {},
+  console.error("Failed to load secure-visibility-api. Screen protection will not be available.", err);
+  // Create a dummy object if the import fails, so the app doesn't crash.
+  SecureVisibility = {
+    protect: () => { console.log("Screen protection is not available."); return false; },
+    unprotect: () => { console.log("Screen protection is not available."); return false; }
   };
 }
+// --- CHANGE END ---
+
 
 let mainWindow;
 let overlayWindow;
@@ -26,10 +25,7 @@ function createMainWindow() {
   mainWindow = new BrowserWindow({
     width: 900,
     height: 600,
-    // --- FIX START ---
-    // Set the native window background color to match your dark theme
     backgroundColor: '#000000',
-    // --- FIX END ---
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
       contextIsolation: true,
@@ -44,8 +40,17 @@ function createMainWindow() {
     mainWindow = null;
   });
 
-  // Apply screen-protection on main window
-  secureDisplay.protectWindow(mainWindow);
+  // --- CHANGE START ---
+  // Apply screen-protection on main window using the new API
+  mainWindow.webContents.once('did-finish-load', () => {
+    const success = SecureVisibility.protect(mainWindow);
+    if (success) {
+      console.log("Main window protection enabled successfully.");
+    } else {
+      console.error("Failed to enable protection on the main window.");
+    }
+  });
+  // --- CHANGE END ---
 }
 
 function createOverlayWindow() {
@@ -59,7 +64,7 @@ function createOverlayWindow() {
     height: 500,
     frame: false,
     transparent: true,
-    backgroundColor: "#00000000", // fully transparent for the overlay shape
+    backgroundColor: "#00000000",
     alwaysOnTop: true,
     skipTaskbar: false,
     resizable: true,
@@ -77,8 +82,17 @@ function createOverlayWindow() {
     overlayWindow = null;
   });
 
-  // Optional: Protect overlay window as well
-  secureDisplay.protectWindow(overlayWindow);
+  // --- CHANGE START ---
+  // Apply screen-protection on the overlay window as well
+  overlayWindow.webContents.once('did-finish-load', () => {
+    const success = SecureVisibility.protect(overlayWindow);
+    if (success) {
+      console.log("Overlay window protection enabled successfully.");
+    } else {
+      console.error("Failed to enable protection on the overlay window.");
+    }
+  });
+  // --- CHANGE END ---
 }
 
 app.whenReady().then(() => {

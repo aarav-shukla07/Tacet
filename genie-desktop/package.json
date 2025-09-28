@@ -20,6 +20,7 @@
     "tailwindcss": "^4.1.13"
   },
   "dependencies": {
+    "@your-npm-username/secure-visibility-api": "file:../../secure-visibility-api",
     "clsx": "^2.1.1",
     "dbus-next": "^0.10.2",
     "framer-motion": "^12.23.22",
